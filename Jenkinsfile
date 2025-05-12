@@ -4,15 +4,13 @@ pipeline {
     stages {
         stage('Debug') {
             steps {
-                sh 'git status'
-                sh 'git branch -a'
-                sh 'ls -la'
+                 echo ' my Maven app...'
             }
         }
         stage('Build') {
             steps {
                 echo 'Building my Maven app...'
-                sh 'mvn clean install'
+                 
             }
         }
     }
