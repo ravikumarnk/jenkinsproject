@@ -27,7 +27,7 @@ pipeline {
             emailext (
                 subject: "Deployment SUCCESS",
                 body: "Application deployed successfully.\nBuild: ${env.BUILD_URL}",
-                to: "your-email@example.com"
+                to: "ravikelakam@gmail.com"
             )
         }
     }
