@@ -16,12 +16,23 @@ pipeline {
              
         }
 
-         stage('Deploy') {
+
+        stage('Deploy') {
     steps {
         input message: "Approve Deployment?", ok: "Deploy"
         echo "Deploying application..."
     }
+    post {
+        success {
+            emailext (
+                subject: "Deployment SUCCESS",
+                body: "Application deployed successfully.\nBuild: ${env.BUILD_URL}",
+                to: "your-email@example.com"
+            )
+        }
+    }
 }
+
 
         
     }
