@@ -5,21 +5,24 @@ pipeline {
 
         stage('Test') {
             steps {
-                echo 'Running unit tests...'
                 bat 'mvn -B test'
             }
         }
 
         stage('Build') {
             steps {
-                echo 'Building the app...'
                 bat 'mvn -B package'
+            }
+            post {
+                success {
+                    archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+                }
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Deploy step (placeholder)'
+                echo "Deploy step"
             }
         }
     }
