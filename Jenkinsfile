@@ -16,11 +16,14 @@ pipeline {
              
         }
 
-        stage('Deploy') {
-            steps {
-                echo "Deploy step"
-            }
-        }
+         stage('Deploy') {
+    steps {
+        input message: "Approve Deployment?", ok: "Deploy"
+        echo "Deploying application..."
+    }
+}
+
+        
     }
 
     post {
