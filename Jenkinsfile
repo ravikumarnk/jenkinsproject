@@ -1,11 +1,18 @@
 pipeline {
     agent any
 
+    tools {
+        // optional: the name you give Maven in Manage Jenkins -> Global Tool Configuration
+        // If you don't configure this, ensure 'mvn' is on the Windows PATH of your agent.
+        // maven 'Maven3'
+    }
+
     stages {
         stage('Test') {
             steps {
                 echo 'Running unit tests...'
-                sh 'mvn -B test'
+                // use bat for Windows agents
+                bat 'mvn -B test'
             }
             post {
                 always {
@@ -17,7 +24,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the app (package)...'
-                sh 'mvn -B -DskipTests=true package'
+                bat 'mvn -B -DskipTests=true package'
             }
             post {
                 success {
@@ -29,13 +36,13 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploy step (placeholder) - implement your deploy here'
-                // Example: sh "scp target/myapp.jar user@server:/opt/apps/"
+                // Example: bat 'scp target\\myapp.jar user@server:/opt/apps/' (if scp available)
             }
         }
     }
 
     post {
-        success { echo "Pipeline completed SUCCESS" }
+        success { echo "Pipeline SUCCESS" }
         failure { echo "Pipeline FAILED — check console output" }
     }
 }
