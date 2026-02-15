@@ -13,11 +13,7 @@ pipeline {
             steps {
                 bat 'mvn -B package'
             }
-            post {
-                success {
-                    archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
-                }
-            }
+             
         }
 
         stage('Deploy') {
