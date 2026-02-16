@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
 
@@ -9,22 +10,17 @@ pipeline {
             }
         }
 
-         stage('Build') {
-    steps {
-        bat 'mvn -B package'
-    }
-    post {
-        success {
-            archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+        stage('Build') {
+            steps {
+                bat 'mvn -B package'
+            }
+             
         }
-    }
-}
-
 
 
         stage('Deploy') {
     steps {
-        input message: "Approve Deployment?", ok: "Deploy"
+        
         echo "Deploying application..."
     }
     post {
