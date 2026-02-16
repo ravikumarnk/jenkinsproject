@@ -10,17 +10,22 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                bat 'mvn -B package'
-            }
-             
+         stage('Build') {
+    steps {
+        bat 'mvn -B package'
+    }
+    post {
+        success {
+            archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
         }
+    }
+}
+
 
 
         stage('Deploy') {
     steps {
-        
+        input message: "Approve Deployment?", ok: "Deploy"
         echo "Deploying application..."
     }
     post {
@@ -43,3 +48,4 @@ pipeline {
         failure { echo "Pipeline FAILED" }
     }
 }
+
