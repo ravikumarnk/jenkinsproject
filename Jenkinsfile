@@ -9,12 +9,17 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                bat 'mvn -B package'
-            }
-             
+         stage('Build') {
+    steps {
+        bat 'mvn -B package'
+    }
+    post {
+        success {
+            archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
         }
+    }
+}
+
 
 
         stage('Deploy') {
