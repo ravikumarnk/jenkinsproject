@@ -12,7 +12,7 @@ pipeline {
 
          stage('Build') {
     steps {
-        bat 'm vn -B package'
+        bat 'mvn -B package'
     }
     post {
         success {
