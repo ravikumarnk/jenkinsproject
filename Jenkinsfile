@@ -25,7 +25,7 @@ pipeline {
 
         stage('Deploy') {
     steps {
-        input message: "Approve Deployment?", ok: "Deploy"
+         
         echo "Deploying application..."
     }
     post {
