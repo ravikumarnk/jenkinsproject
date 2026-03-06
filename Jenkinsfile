@@ -1,13 +1,7 @@
+
+
 pipeline {
     agent any
-
-    parameters {
-        choice(
-            name: 'ENV',
-            choices: ['dev', 'qa', 'prod'],
-            description: 'Select deployment environment'
-        )
-    }
 
     stages {
 
@@ -17,43 +11,36 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                bat 'mvn -B package'
-            }
-            post {
-                success {
-                    archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
-                }
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                script {
-                    if (params.ENV == 'dev') {
-                        echo "Deploying to DEV environment"
-                        // dev deployment logic
-                    }
-                    else if (params.ENV == 'qa') {
-                        echo "Deploying to QA environment"
-                        // qa deployment logic
-                    }
-                    else if (params.ENV == 'prod') {
-                        echo "Deploying to PROD environment"
-                        // prod deployment logic
-                    }
-                }
-            }
-        }
+         stage('Build') {
+    steps {
+        bat 'mvn -B package'
     }
-
     post {
         success {
-            echo "Pipeline SUCCESS"
-        }
-        failure {
-            echo "Pipeline FAILED"
+            archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
         }
     }
 }
+    stage('Deploy') {
+    steps {
+        input message: "Approve Deployment?", ok: "Deploy"
+        echo "Deploying application..."
+    }
+    post {
+        success {
+            emailext (
+                subject: "Deployment SUCCESS",
+                body: "Application deployed successfully.\nBuild: ${env.BUILD_URL}",
+                to: "ravikelakam@gmail.com"
+            )
+        }
+    }
+} 
+    }
+
+    post {
+        success { echo "Pipeline SUCCESS" }
+        failure { echo "Pipeline FAILED" }
+    }
+}
+
