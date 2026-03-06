@@ -20,12 +20,9 @@ pipeline {
         }
     }
 }
-
-
-
-        stage('Deploy') {
+    stage('Deploy') {
     steps {
-         
+        input message: "Approve Deployment?", ok: "Deploy"
         echo "Deploying application..."
     }
     post {
@@ -38,9 +35,7 @@ pipeline {
         }
     }
 }
-
-
-        
+ 
     }
 
     post {
@@ -48,4 +43,3 @@ pipeline {
         failure { echo "Pipeline FAILED" }
     }
 }
-
